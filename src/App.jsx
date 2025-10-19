@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import createContextHook from '@nkzw/create-context-hook';
+import useLiveUpdates from './hooks/useLiveUpdates';
 import LandingPage from './LandingPage';
 import { saveToLocalStorage, loadFromLocalStorage } from './utils/localStorage';
 import SearchAndFilter from './components/SearchAndFilter';
@@ -127,24 +128,31 @@ const [useAppState, AppStateProvider] = createContextHook(() => {
   const [currentView, setCurrentView] = useState('public');
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   
-  // Load data from localStorage or use mock data
-  const [events, setEvents] = useState(() => 
-    loadFromLocalStorage('events', mockEvents)
-  );
-  const [teams, setTeams] = useState(() => 
-    loadFromLocalStorage('teams', mockTeams)
-  );
+  // State variables for data
+  const [events, setEvents] = useState(mockEvents);
+  const [teams, setTeams] = useState(mockTeams);
   const [categories] = useState(mockCategories);
-  const [programs, setPrograms] = useState(() => 
-    loadFromLocalStorage('programs', mockPrograms)
-  );
-  const [students, setStudents] = useState(() => 
-    loadFromLocalStorage('students', mockStudents)
-  );
-  const [results, setResults] = useState(() => 
-    loadFromLocalStorage('results', mockResults)
-  );
+  const [programs, setPrograms] = useState(mockPrograms);
+  const [students, setStudents] = useState(mockStudents);
+  const [results, setResults] = useState(mockResults);
   const [activeEventIndex, setActiveEventIndex] = useState(0);
+  
+  // Create a callback to refresh data from localStorage
+  const refreshData = useCallback(() => {
+    setEvents(loadFromLocalStorage('events', mockEvents));
+    setTeams(loadFromLocalStorage('teams', mockTeams));
+    setPrograms(loadFromLocalStorage('programs', mockPrograms));
+    setStudents(loadFromLocalStorage('students', mockStudents));
+    setResults(loadFromLocalStorage('results', mockResults));
+  }, []);
+
+  // Enable live updates
+  useLiveUpdates(refreshData, 3000); // Check for updates every 3 seconds
+
+  // Load initial data
+  useEffect(() => {
+    refreshData();
+  }, [refreshData]);
 
   // Save data to localStorage whenever it changes
   useEffect(() => {

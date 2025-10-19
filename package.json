@@ -7,6 +7,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "cross-env ESLINT_NO_DEV_ERRORS=true CI=false react-scripts build",
+    "server": "node server.js",
+    "dev": "concurrently \"npm start\" \"npm run server\"",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint src/",
@@ -29,6 +31,7 @@
     "eslint": "^8.57.1",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.0",
+    "express": "^5.1.0",
     "jest-environment-jsdom": "^30.2.0",
     "prettier": "^3.6.2",
     "react": "^19.2.0",
@@ -51,6 +54,7 @@
     ]
   },
   "devDependencies": {
+    "concurrently": "^9.2.1",
     "webpack-cli": "^6.0.1"
   }
 }

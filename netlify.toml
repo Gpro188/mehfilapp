@@ -3,11 +3,7 @@
 [build]
   command = "npm run build"
   publish = "build"
-  functions = "functions"
-
-[dev]
-  command = "npm start"
-  port = 3000
+  base = "/"
 
 [[redirects]]
   from = "/*"
