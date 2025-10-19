@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A comprehensive arts festival result publishing web application with admin management dashboard, real-time leaderboards, and team standings.",
   "main": "index.js",
+  "homepage": ".",
   "scripts": {
     "start": "react-scripts start",
     "build": "cross-env ESLINT_NO_DEV_ERRORS=true react-scripts build",
@@ -48,5 +49,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "webpack-cli": "^6.0.1"
   }
 }
